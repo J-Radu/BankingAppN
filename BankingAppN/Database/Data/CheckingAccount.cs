@@ -1,0 +1,26 @@
+using BankingApp.Interfaces;
+
+namespace BankingApp.Data;
+
+public class CheckingAccount : IBankAccount
+{
+    public string AccountType => "Checking Account";
+    public decimal Balance { get; private set; }
+
+    public void Deposit(decimal amount)
+    {
+        Balance += amount;
+    }
+
+    public void Withdraw(decimal amount)
+    {
+        if (amount <= Balance)
+        {
+            Balance -= amount;
+        }
+        else
+        {
+            throw new InvalidOperationException("Insufficient funds");
+        }
+    }
+}

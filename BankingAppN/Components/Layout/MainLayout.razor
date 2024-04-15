@@ -1,0 +1,46 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager navManager
+@page "/wwwroot/css/MainLayout.razor.css"
+
+<MudThemeProvider Theme="MyCustomTheme" />
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<MudLayout>
+    <MudAppBar Elevation="1" Dense="false">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@open" ClipMode="@DrawerClipMode.Always" Breakpoint="@Breakpoint.Lg" PreserveOpenState="false" Elevation="1" Variant="@DrawerVariant.Mini">
+        <MudNavMenu Color="Color.Dark" Class="custom-navgroup centered-nav-content">
+            <MudNavLink Match="NavLinkMatch.All" Href="/Dashboard" Icon="@Icons.Material.Filled.Store">Dashboard</MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.LibraryBooks">Transactions</MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Group">Profile</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent Class="pt-16 px-2">
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+
+@code{
+    bool open = false;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+    MudTheme MyCustomTheme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Primary = "#a12828",
+            Secondary = "#a12828",
+            Background = "#fafafa",
+            AppbarBackground = "#008080",
+            TableLines = "#a12828",
+        },
+    };
+}

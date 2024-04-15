@@ -1,0 +1,64 @@
+@page "/Dashboard"
+@using MudBlazor
+@using BankingAppN.Components
+@using MudBlazor.Services
+
+<style>
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+.color1{
+    background-color: #f44336;
+}
+.color2{
+    background-color: #e91e63;
+}
+.color3{
+    background-color: #9c27b0;
+}
+.color4{
+    background-color: #673ab7;
+}
+.color5{
+    background-color: #3f51b5;
+}
+.color6{
+    background-color: #2196f3;
+}
+</style>
+
+<MudButton>
+    <MudIcon Icon="MudIcons.Material.Filled.Add" />
+</MudButton>
+
+<MudGrid Spacing="2">
+    <MudItem xs="7" >
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8" Style="@($"color:{Theme.Palette.Dark}; background:{Theme.Palette.Warning};")">xs=12</MudPaper>
+    </MudItem>
+    <MudItem xs="5" class="color2">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=6</MudPaper>
+    </MudItem>
+    <MudItem xs="7" class="color3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=6</MudPaper>
+    </MudItem>
+    <MudItem xs="5" class="color4">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=3</MudPaper>
+    </MudItem>
+    <MudItem xs="7" class="color5">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=3</MudPaper>
+    </MudItem>
+    <MudItem xs="5" class="color6">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=3</MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+    
+    private MudTheme Theme = new MudTheme();
+    
+    
+}

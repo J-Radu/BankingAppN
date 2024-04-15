@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingAppN", "BankingAppN\BankingAppN.csproj", "{4325FB8D-91BA-4A82-A13C-11E6F57EACE4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4325FB8D-91BA-4A82-A13C-11E6F57EACE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4325FB8D-91BA-4A82-A13C-11E6F57EACE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4325FB8D-91BA-4A82-A13C-11E6F57EACE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4325FB8D-91BA-4A82-A13C-11E6F57EACE4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
