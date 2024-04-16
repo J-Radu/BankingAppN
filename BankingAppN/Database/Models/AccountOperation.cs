@@ -8,7 +8,7 @@ public class AccountOperation
     
     public int OperationID { get; set; }
     public int AccountID { get; set; }
-    public string AccountNumber { get; set; }
+    public string AccountNumberDestination { get; set; }
     public DateOnly OperationDate { get; set; }
     public decimal OperationAmount { get; set; }
     public string OperationType { get; set; }

@@ -1,7 +1,6 @@
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\bin\Debug\net8.0\appsettings.json
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\bin\Debug\net8.0\BankingAppN.staticwebassets.runtime.json
-C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\bin\Debug\net8.0\Data\app.db
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\bin\Debug\net8.0\BankingAppN.exe
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\bin\Debug\net8.0\BankingAppN.deps.json
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\bin\Debug\net8.0\BankingAppN.runtimeconfig.json
@@ -162,3 +161,4 @@ C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.pdb
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.genruntimeconfig.cache
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\ref\BankingAppN.dll
+C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.sourcelink.json
