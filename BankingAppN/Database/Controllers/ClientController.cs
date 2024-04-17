@@ -1,59 +1,50 @@
-using BankingApp.Interfaces;
-using BankingApp.Models;
+using BankingAppN.Database.Interfaces;
+using BankingAppN.Database.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankingApp.Controllers
+namespace BankingAppN.Database.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     
-    public class ClientController : ControllerBase
+    public class ClientController(IClient service) : ControllerBase
     {
-        private readonly IClient _service;
-
-        public ClientController(IClient service)
-        {
-            _service = service;
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var Clients = await _service.GetAllClientsAsync();
-            return Ok(Clients);
+            var clients = await service.GetAllClientsAsync();
+            return Ok(clients);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var client = await _service.GetClientByIdAsync(id);
-            if (client == null)
-                return NotFound();
+            var client = await service.GetClientByIdAsync(id);
             return Ok(client);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Client client)
+        public async Task<IActionResult> Create([FromBody] Client? client)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var createdClient = await _service.AddClientAsync(client);
-            return CreatedAtAction(nameof(GetById), new { id = createdClient.ClientID }, createdClient);
+            var createdClient = await service.AddClientAsync(client);
+            return CreatedAtAction(nameof(GetById), new { id = createdClient.ClientId }, createdClient);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] Client client)
         {
-            if (!ModelState.IsValid || id != client.ClientID)
+            if (!ModelState.IsValid || id != client.ClientId)
                 return BadRequest();
-            await _service.UpdateClientAsync(client);
+            await service.UpdateClientAsync(client);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _service.DeleteClientAsync(id);
+            await service.DeleteClientAsync(id);
             return NoContent();
         }
     }

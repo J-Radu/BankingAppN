@@ -1,40 +1,29 @@
-using BankingApp.Interfaces;
-using BankingApp.Models;
+using BankingAppN.Database.Interfaces;
+using BankingAppN.Database.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankingApp.Controllers
+namespace BankingAppN.Database.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProfileManagerController : ControllerBase
+    public class ProfileManagerController(IProfileService profileService) : ControllerBase
     {
-        private readonly IProfileService _profileService;
-
-        public ProfileManagerController(IProfileService profileService)
-        {
-            _profileService = profileService;
-        }
-
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProfile(int id)
         {
-            var client = await _profileService.GetClientProfileAsync(id);
-            if (client == null)
-            {
-                return NotFound();
-            }
+            var client = await profileService.GetClientProfileAsync(id);
             return Ok(client);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateProfile(int id, [FromBody] Client profileData)
         {
-            if (!ModelState.IsValid || id != profileData.ClientID)
+            if (!ModelState.IsValid || id != profileData.ClientId)
             {
                 return BadRequest(ModelState);
             }
 
-            var updatedClient = await _profileService.UpdateClientProfileAsync(
+            var updatedClient = await profileService.UpdateClientProfileAsync(
                 id,
                 profileData.Name,
                 profileData.Surname,
@@ -42,11 +31,6 @@ namespace BankingApp.Controllers
                 profileData.Phone,
                 profileData.Age
             );
-
-            if (updatedClient == null)
-            {
-                return NotFound();
-            }
 
             return Ok(updatedClient);
         }
@@ -54,12 +38,12 @@ namespace BankingApp.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> CreateProfile(int id, [FromBody] Client profileData)
         {
-            if (!ModelState.IsValid || id != profileData.ClientID)
+            if (!ModelState.IsValid || id != profileData.ClientId)
             {
                 return BadRequest(ModelState);
             }
 
-            var createdClient = await _profileService.CreateFullClientProfileAsync(
+            var createdClient = await profileService.CreateFullClientProfileAsync(
                 id,
                 profileData.Name,
                 profileData.Surname,
@@ -68,21 +52,12 @@ namespace BankingApp.Controllers
                 profileData.Age
             );
 
-            if (createdClient == null)
-            {
-                return NotFound();
-            }
-
             return Ok(createdClient);
         }
         [HttpPost("{id}/clone")]
         public async Task<IActionResult> CloneProfile(int id)
         {
-            var clonedClient = await _profileService.CloneClientProfileAsync(id);
-            if (clonedClient == null)
-            {
-                return NotFound();
-            }
+            var clonedClient = await profileService.CloneClientProfileAsync(id);
 
             return Ok(clonedClient);
         }

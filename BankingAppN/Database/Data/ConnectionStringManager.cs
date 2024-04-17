@@ -1,43 +1,40 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-
-namespace BankingApp.Data;
+namespace BankingAppN.Database.Data;
 
 public class ConnectionStringManager
 {
-    private static ConnectionStringManager instance;
-    private string connectionString;
+    private static ConnectionStringManager? _instance;
+    private readonly string _connectionString;
 
     private ConnectionStringManager()
     {
-        connectionString = LoadConnectionStringFromJson();
+        _connectionString = LoadConnectionStringFromJson();
     }
 
-    public static ConnectionStringManager Instance
+    public static ConnectionStringManager? Instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new ConnectionStringManager();
+                _instance = new ConnectionStringManager();
             }
-            return instance;
+            return _instance;
         }
     }
 
     public string GetConnectionString()
     {
-        return connectionString;
+        return _connectionString;
     }
 
-    private string LoadConnectionStringFromJson()
+    private static string LoadConnectionStringFromJson()
     {
         string connectionString = "";
 
         var builder = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
         var configuration = builder.Build();
-        connectionString = configuration.GetConnectionString("BankDB");
+        connectionString = configuration.GetConnectionString("BankDB")!;
         
         return connectionString;
     }

@@ -1,49 +1,42 @@
-using BankingApp.Data;
-using BankingApp.Interfaces;
-using BankingApp.Models;
 using BankingAppN.Data;
+using BankingAppN.Database.Interfaces;
+using BankingAppN.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankingApp.Services;
+namespace BankingAppN.Database.Services;
 
-public class AccountOperationService : IAccountOperation
+public class AccountOperationService(ApplicationDbContext context) : IAccountOperation
 {
-    private readonly ApplicationDbContext _context;
-    
-    public AccountOperationService(ApplicationDbContext context)
+    public async Task<IEnumerable<AccountOperation?>> GetAllAccountOperationsAsync()
     {
-        _context = context;
+        return await context.AccountOperations.ToListAsync();
     }
-    public async Task<IEnumerable<AccountOperation>> GetAllAccountOperationsAsync()
+    public async Task<AccountOperation?> GetAccountOperationByIdAsync(int id)
     {
-        return await _context.AccountOperations.ToListAsync();
+        return await context.AccountOperations.FindAsync(id);
     }
-    public async Task<AccountOperation> GetAccountOperationByIdAsync(int id)
+    public async Task<AccountOperation?> AddAccountOperationAsync(AccountOperation? accountOperation)
     {
-        return await _context.AccountOperations.FindAsync(id);
-    }
-    public async Task<AccountOperation> AddAccountOperationAsync(AccountOperation accountOperation)
-    {
-        _context.AccountOperations.Add(accountOperation);
-        await _context.SaveChangesAsync();
+        context.AccountOperations.Add(accountOperation);
+        await context.SaveChangesAsync();
         return accountOperation;
     }
-    public AccountOperation AddAccountOperation(AccountOperation accountOperation)
+    public AccountOperation? AddAccountOperation(AccountOperation? accountOperation)
     {
-        _context.AccountOperations.Add(accountOperation);
-        _context.SaveChanges();
+        context.AccountOperations.Add(accountOperation);
+        context.SaveChanges();
         return accountOperation;
     }
     public async Task<AccountOperation> UpdateAccountOperationAsync(AccountOperation accountOperation)
     {
-        _context.Entry(accountOperation).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        context.Entry(accountOperation).State = EntityState.Modified;
+        await context.SaveChangesAsync();
         return accountOperation;
     }
     public async Task DeleteAccountOperationAsync(int id)
     {
-        var accountOperation = await _context.AccountOperations.FindAsync(id);
-        _context.AccountOperations.Remove(accountOperation);
-        await _context.SaveChangesAsync();
+        var accountOperation = await context.AccountOperations.FindAsync(id);
+        context.AccountOperations.Remove(accountOperation);
+        await context.SaveChangesAsync();
     }
 }
