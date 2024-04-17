@@ -1,67 +1,59 @@
-using BankingApp.Data;
-using BankingApp.Interfaces;
-using BankingApp.Models;
 using BankingAppN.Data;
+using BankingAppN.Database.Data;
+using BankingAppN.Database.Interfaces;
+using BankingAppN.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankingApp.Services;
+namespace BankingAppN.Database.Services;
 
-public class ClientService : IClient
+public class ClientService(ApplicationDbContext context, BankAccountFactory accountFactory)
+    : IClient
 {
-    private readonly ApplicationDbContext _context;
-    private readonly BankAccountFactory _accountFactory;
-
-    public ClientService(ApplicationDbContext context)
+    public async Task<IEnumerable<Client?>> GetAllClientsAsync()
     {
-        _context = context;
+        return await context.Clients.ToListAsync();
     }
 
-    public async Task<IEnumerable<Client>> GetAllClientsAsync()
+    public async Task<Client?> GetClientByIdAsync(int id)
     {
-        return await _context.Clients.ToListAsync();
+        return await context.Clients.FindAsync(id);
     }
 
-    public async Task<Client> GetClientByIdAsync(int id)
+    public async Task<Client?> AddClientAsync(Client? client)
     {
-        return await _context.Clients.FindAsync(id);
-    }
-
-    public async Task<Client> AddClientAsync(Client client)
-    {
-        _context.Clients.Add(client);
-        await _context.SaveChangesAsync();
+        context.Clients.Add(client);
+        await context.SaveChangesAsync();
         return client;
     }
     
-    public Client AddClient(Client client)
+    public Client? AddClient(Client? client)
     {
-        _context.Clients.Add(client);
-        _context.SaveChanges();
+        context.Clients.Add(client);
+        context.SaveChanges();
         return client;
     }
 
     public async Task<Client> UpdateClientAsync(Client client)
     {
-        _context.Entry(client).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        context.Entry(client).State = EntityState.Modified;
+        await context.SaveChangesAsync();
         return client;
     }
 
     public async Task DeleteClientAsync(int id)
     {
-        var client = await _context.Clients.FindAsync(id);
-        _context.Clients.Remove(client);
-        await _context.SaveChangesAsync();
+        var client = await context.Clients.FindAsync(id);
+        context.Clients.Remove(client);
+        await context.SaveChangesAsync();
     }
     //Metoda pentru factory method
-    public ClientService(BankAccountFactory accountFactory)
+    public ClientService(BankAccountFactory accountFactory) : this(null, accountFactory)
     {
-        _accountFactory = accountFactory;
     }
 
     public IBankAccount OpenAccount(AccountType type)
     {
-        return _accountFactory.CreateAccount(type);
+        return accountFactory.CreateAccount(type);
     }
     
 }

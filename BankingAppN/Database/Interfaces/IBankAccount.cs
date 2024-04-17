@@ -1,4 +1,4 @@
-namespace BankingApp.Interfaces;
+namespace BankingAppN.Database.Interfaces;
 
 public interface IBankAccount
 {
