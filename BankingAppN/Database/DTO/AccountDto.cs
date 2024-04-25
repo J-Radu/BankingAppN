@@ -5,6 +5,7 @@ namespace BankingAppN.Database.DTO;
 public class AccountDto
 {
     [Key]
+    
     public int AccountId { get; set; }
     public int ClientId { get; set; }
     public string? AccountType { get; set; }
