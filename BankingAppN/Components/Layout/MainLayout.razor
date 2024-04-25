@@ -3,8 +3,9 @@
 @page "/wwwroot/css/MainLayout.razor.css"
 
 <MudThemeProvider Theme="MyCustomTheme" />
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+<MudPopoverProvider @rendermode="InteractiveServer"/>
+<MudDialogProvider @rendermode="InteractiveServer"/>
+<MudSnackbarProvider @rendermode="InteractiveServer"/>
 
 <MudLayout>
     <MudAppBar Elevation="1" Dense="false">

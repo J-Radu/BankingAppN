@@ -5,7 +5,6 @@ namespace BankingAppN.Database.Models;
 public class Account
 {
     [Key]
-    
     public int AccountId { get; set; }
     public int ClientId { get; set; }
     public string? AccountType { get; set; }
@@ -16,5 +15,4 @@ public class Account
     
     public ICollection<Card> Cards { get; set; } = new List<Card>();
     public ICollection<AccountOperation> AccountOperations { get; set; } = new List<AccountOperation>();
-    
 }
