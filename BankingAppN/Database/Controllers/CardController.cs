@@ -1,4 +1,4 @@
-namespace BankingAppN.Database.Controllers;
+namespace BankingApp.Controllers;
 
 public class CardController
 {

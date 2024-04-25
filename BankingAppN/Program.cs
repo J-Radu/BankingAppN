@@ -1,13 +1,13 @@
 using System.Text.Json.Serialization;
+using BankingApp.Data;
+using BankingApp.Interfaces;
+using BankingApp.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BankingAppN.Components;
 using BankingAppN.Components.Account;
 using BankingAppN.Data;
-using BankingAppN.Database.Data;
-using BankingAppN.Database.Interfaces;
-using BankingAppN.Database.Services;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +31,7 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 
-var test = ConnectionStringManager.Instance?.GetConnectionString();
+var test = ConnectionStringManager.Instance.GetConnectionString();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(test));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

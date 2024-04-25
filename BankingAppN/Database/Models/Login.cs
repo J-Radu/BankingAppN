@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace BankingAppN.Database.Models;
+namespace BankingApp.Models;
 
 public class Login : IdentityUser
 {

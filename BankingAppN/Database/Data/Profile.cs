@@ -1,6 +1,8 @@
-using BankingAppN.Database.Models;
+using BankingApp.Interfaces;
+using BankingApp.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace BankingAppN.Database.Data;
+namespace BankingApp.Data;
 
 public class Profile : Client
 {

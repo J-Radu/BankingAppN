@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BankingAppN.Database.Models;
+namespace BankingApp.Models;
 
 public class Client
 {
     [Key]
     
-    public int ClientId { get; set; }
-    public string? Name { get; set; }
+    public int ClientID { get; set; }
+    public string Name { get; set; }
     public string Surname  { get; set; }
     public string Email { get; set; }
     public string Phone { get; set; }

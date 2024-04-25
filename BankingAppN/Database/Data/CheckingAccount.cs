@@ -1,6 +1,6 @@
-using BankingAppN.Database.Interfaces;
+using BankingApp.Interfaces;
 
-namespace BankingAppN.Database.Data;
+namespace BankingApp.Data;
 
 public class CheckingAccount : IBankAccount
 {
