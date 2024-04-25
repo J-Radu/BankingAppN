@@ -1,6 +1,6 @@
-using BankingAppN.Database.Interfaces;
+using BankingApp.Interfaces;
 
-namespace BankingAppN.Database.Data;
+namespace BankingApp.Data;
 
 public enum AccountType
 {
@@ -8,7 +8,7 @@ public enum AccountType
     Checking
 }
 
-public abstract class BankAccountFactory
+public class BankAccountFactory
 {
     public IBankAccount CreateAccount(AccountType type)
     {

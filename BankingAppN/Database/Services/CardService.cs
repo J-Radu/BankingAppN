@@ -1,42 +1,48 @@
+using BankingApp.Data;
+using BankingApp.Interfaces;
+using BankingApp.Models;
 using BankingAppN.Data;
-using BankingAppN.Database.Interfaces;
-using BankingAppN.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankingAppN.Database.Services;
+namespace BankingApp.Services;
 
-public class CardService(ApplicationDbContext context) : ICard
+public class CardService : ICard
 {
-    public async Task<IEnumerable<Card?>> GetAllCardsAsync()
+    private readonly ApplicationDbContext _context;
+    public CardService(ApplicationDbContext context)
     {
-        return await context.Cards.ToListAsync();
+        _context = context;
     }
-    public async Task<Card?> GetCardByIdAsync(int id)
+    public async Task<IEnumerable<Card>> GetAllCardsAsync()
     {
-        return await context.Cards.FindAsync(id);
+        return await _context.Cards.ToListAsync();
     }
-    public async Task<Card?> AddCardAsync(Card? card)
+    public async Task<Card> GetCardByIdAsync(int id)
     {
-        context.Cards.Add(card);
-        await context.SaveChangesAsync();
+        return await _context.Cards.FindAsync(id);
+    }
+    public async Task<Card> AddCardAsync(Card card)
+    {
+        _context.Cards.Add(card);
+        await _context.SaveChangesAsync();
         return card;
     }
-    public Card? AddCard(Card? card)
+    public Card AddCard(Card card)
     {
-        context.Cards.Add(card);
-        context.SaveChanges();
+        _context.Cards.Add(card);
+        _context.SaveChanges();
         return card;
     }
     public async Task<Card> UpdateCardAsync(Card card)
     {
-        context.Entry(card).State = EntityState.Modified;
-        await context.SaveChangesAsync();
+        _context.Entry(card).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
         return card;
     }
     public async Task DeleteCardAsync(int id)
     {
-        var card = await context.Cards.FindAsync(id);
-        context.Cards.Remove(card);
-        await context.SaveChangesAsync();
+        var card = await _context.Cards.FindAsync(id);
+        _context.Cards.Remove(card);
+        await _context.SaveChangesAsync();
     }
 }
