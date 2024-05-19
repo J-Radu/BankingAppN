@@ -155,10 +155,10 @@ C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\scopedcss\bundle\BankingAppN.styles.css
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\scopedcss\projectbundle\BankingAppN.bundle.scp.css
-C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.csproj.CopyComplete
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.dll
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\refint\BankingAppN.dll
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.pdb
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.genruntimeconfig.cache
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\ref\BankingAppN.dll
 C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingAppN.sourcelink.json
+C:\Users\schio\OneDrive\Desktop\Anul 3\sem 2\TMPP\proiect de an nou\BankingAppN\BankingAppN\obj\Debug\net8.0\BankingA.83E00330.Up2Date
