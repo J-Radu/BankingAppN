@@ -4,6 +4,7 @@ using BankingAppN.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingAppN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520114132_SetFK")]
+    partial class SetFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,11 +155,9 @@ namespace BankingAppN.Migrations
 
                     b.Property<string>("UserID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClientID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Clients");
                 });
@@ -392,17 +393,6 @@ namespace BankingAppN.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("BankingApp.Models.Client", b =>
-                {
-                    b.HasOne("BankingAppN.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany("Clients")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -464,11 +454,6 @@ namespace BankingAppN.Migrations
             modelBuilder.Entity("BankingApp.Models.Client", b =>
                 {
                     b.Navigation("Accounts");
-                });
-
-            modelBuilder.Entity("BankingAppN.Data.ApplicationUser", b =>
-                {
-                    b.Navigation("Clients");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankingAppN.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
    
     public DbSet<Client> Clients { get; set; }
@@ -16,6 +16,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Client>()
+            .HasOne(a => a.ApplicationUser)
+            .WithMany(a => a.Clients)
+            .HasForeignKey(a => a.UserID)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<Account>()
             // .HasKey( a => new { a.AccountID, a.ClientID })
             .HasOne(a => a.Client)
