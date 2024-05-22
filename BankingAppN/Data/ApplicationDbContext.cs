@@ -1,4 +1,3 @@
-using BankingApp.Data;
 using BankingApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
