@@ -1,0 +1,213 @@
+@page "/Profile"
+@using System.ComponentModel.DataAnnotations
+@using BankingApp.Interfaces
+@using BankingApp.Models
+@using BankingAppN.Data
+@using Microsoft.AspNetCore.Identity
+@inject IProfileService ProfileService
+@inject UserManager<ApplicationUser> UserManager
+@inject NavigationManager NavigationManager
+
+<h3>Profile</h3>
+
+<style>
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-control {
+        width: 200px;
+    }
+
+    .btn {
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .client-info {
+        margin-bottom: 20px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .field-name {
+        width: 100px; /* Ajustați în funcție de nevoi */
+        font-weight: bold;
+    }
+
+    .field-value {
+        margin-left: 10px;
+    }
+
+</style>
+
+@if (client == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div class="client-info">
+        <h4>Client Information</h4>
+        <div class="info-item">
+            <span class="field-name">Name:</span>
+            <span class="field-value">@client.Name</span>
+        </div>
+        <div class="info-item">
+            <span class="field-name">Surname:</span>
+            <span class="field-value">@client.Surname</span>
+        </div>
+        <div class="info-item">
+            <span class="field-name">Email:</span>
+            <span class="field-value">@client.Email</span>
+        </div>
+        <div class="info-item">
+            <span class="field-name">Phone:</span>
+            <span class="field-value">@client.Phone</span>
+        </div>
+        <div class="info-item">
+            <span class="field-name">Age:</span>
+            <span class="field-value">@client.Age</span>
+        </div>
+    </div>
+    <div class="profile-container">
+        <div class="profile-item">
+            <section>
+                <div>
+                    <EditForm Model="input" method="post" OnValidSubmit="UpdateName" FormName="name">
+                        <div class="form-floating mb-3">
+                            <InputText @bind-Value="input.Name" class="form-control" autocomplete="username" aria-required="true" placeholder="name"/>
+                            <label for="name" class="form-label">Name</label>
+                            <ValidationMessage For="() => input.Name" class="text-danger"/>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </EditForm>
+                </div>
+                <div>
+                    <EditForm Model="input" method="post" OnValidSubmit="UpdateSurname" FormName="surname">
+                        <div class="form-floating mb-3">
+                            <InputText @bind-Value="input.Surname" class="form-control" autocomplete="surname" aria-required="true" placeholder="surname"/>
+                            <label for="surname" class="form-label">Surname</label>
+                            <ValidationMessage For="() => input.Surname" class="text-danger"/>
+                            <button type="submit" class="btn btn-primary">Update aaa</button>
+                        </div>
+                    </EditForm>
+                </div>
+
+                <EditForm Model="input" method="post" OnValidSubmit="UpdatePhone" FormName="phone">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="input.Phone" class="form-control" autocomplete="phone" aria-required="true" placeholder="phone"/>
+                        <label for="phone" class="form-label">Phone</label>
+                        <ValidationMessage For="() => input.Phone" class="text-danger"/>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </EditForm>
+
+                <EditForm Model="input" method="post" OnValidSubmit="UpdateAge" FormName="age">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="input.Age" class="form-control" autocomplete="age" aria-required="true" placeholder="age"/>
+                        <label for="age" class="form-label">Age</label>
+                        <ValidationMessage For="() => input.Age" class="text-danger"/>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </EditForm>
+            </section>
+        </div>
+    </div>
+}
+
+@code {
+    private Client client;
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [SupplyParameterFromForm] private Model input { get; set; } = new Model();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userId = UserManager.GetUserId(user);
+            client = await ProfileService.GetClientProfileByUserIdAsync(userId);
+
+            if (client == null)
+            {
+                client = new Client
+                {
+                    UserID = userId
+                };
+                client = await ProfileService.CreateClientProfileAsync(client);
+            }
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/Account/Login");
+        }
+    }
+
+    private async Task UpdateName()
+    {
+        await ProfileService.SetNameAsync(client.ClientID, input.Name);
+        client = await ProfileService.GetClientProfileAsync(client.ClientID);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UpdateSurname()
+    {
+        await ProfileService.SetSurnameAsync(client.ClientID, input.Surname);
+        client = await ProfileService.GetClientProfileAsync(client.ClientID);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UpdatePhone()
+    {
+        await ProfileService.SetPhoneAsync(client.ClientID, input.Phone);
+        client = await ProfileService.GetClientProfileAsync(client.ClientID);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UpdateAge()
+    {
+        await ProfileService.SetAgeAsync(client.ClientID, input.Age);
+        client = await ProfileService.GetClientProfileAsync(client.ClientID);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private sealed class Model
+    {
+        [Required] public string? Name { get; set; } = string.Empty;
+
+        [Required] public string? Surname { get; set; } = string.Empty;
+
+        [Required] public string? Phone { get; set; } = string.Empty;
+
+        [Required] public string? Age { get; set; } = string.Empty;
+    }
+
+}

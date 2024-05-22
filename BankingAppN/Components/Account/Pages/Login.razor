@@ -1,14 +1,19 @@
 ﻿@page "/Account/Login"
 
 @using System.ComponentModel.DataAnnotations
+@using BankingApp.Interfaces
+@using BankingApp.Models
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using BankingAppN.Data
+@using BankingApp.Services
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IProfileService ProfileService
 
 <PageTitle>Log in</PageTitle>
 
@@ -90,6 +95,26 @@
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
+
+            // Get the UserID
+            var user = await UserManager.FindByEmailAsync(Input.Email);
+            if (user != null)
+            {
+                // Check if the user already has a client profile
+                var client = await ProfileService.GetClientProfileByUserIdAsync(user.Id);
+                if (client == null)
+                {
+                    // If not, create a new client profile
+                    client = new Client
+                    {
+                        UserID = user.Id,
+                        //Name = user.UserName, // or other initial data
+                            Email = user.UserName
+                    };
+                    await ProfileService.CreateClientProfileAsync(client);
+                }
+            }
+
             RedirectManager.RedirectTo(ReturnUrl);
         }
         else if (result.RequiresTwoFactor)
@@ -119,5 +144,4 @@
 
         [Display(Name = "Remember me?")] public bool RememberMe { get; set; }
     }
-
 }
