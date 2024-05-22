@@ -14,7 +14,7 @@
     </MudAppBar>
     <MudDrawer @bind-Open="@open" ClipMode="@DrawerClipMode.Always" Breakpoint="@Breakpoint.Lg" PreserveOpenState="false" Elevation="1" Variant="@DrawerVariant.Mini">
         <MudNavMenu Color="Color.Dark" Class="custom-navgroup centered-nav-content">
-            <MudNavLink Match="NavLinkMatch.All" Href="/Dashboard" Icon="@Icons.Material.Filled.Store">Dashboard</MudNavLink>
+            @* <MudNavLink Match="NavLinkMatch.All" Href="/Dashboard" Icon="@Icons.Material.Filled.Store">Dashboard</MudNavLink> *@
             <AuthorizeView>
                 <NotAuthorized>
                     <MudNavLink Match="NavLinkMatch.All" Href="/Account/Login" Icon="@Icons.Material.Filled.AccountCircle">Login</MudNavLink>
@@ -23,7 +23,6 @@
                     <MudNavLink Match="NavLinkMatch.All" Href="/Profile" Icon="@Icons.Material.Filled.Group">Profile</MudNavLink>
                     <MudNavLink Match="NavLinkMatch.All" Href="/Transactions" Icon="@Icons.Material.Filled.LibraryBooks">Transactions</MudNavLink>
                     <MudNavLink Match="NavLinkMatch.All" Href="/MakeTransactions" Icon="@Icons.Material.Filled.East"> Make Transactions</MudNavLink>
-                    <MudNavLink Match="NavLinkMatch.All" Href="/Account/Logout" Icon="@Icons.Material.Filled.ExitToApp">Logout</MudNavLink>
                 </Authorized>
             </AuthorizeView>
         </MudNavMenu>
