@@ -1,5 +1,209 @@
-<h3>MakeTransactions</h3>
+@page "/MakeTransactions"
+@using System.ComponentModel.DataAnnotations
+@using BankingApp.Interfaces
+@using BankingApp.Models
+@using BankingApp.Services
+@using BankingAppN.Data
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject IAccount AccountService
+@inject IAccountOperation AccountOperationService
+@inject IClient ClientService
+@inject NavigationManager NavigationManager
+
+<h3>Make a Transaction</h3>
+
+<style>
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-control {
+        width: 200px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .btn {
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .client-info {
+        margin-bottom: 20px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .field-name {
+        width: 100px; /* Ajustați în funcție de nevoi */
+        font-weight: bold;
+    }
+
+    .field-value {
+        margin-left: 10px;
+    }
+
+    .form-container {
+        margin-top: 20px;
+    }
+</style>
+
+@if (activeAccount == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div>
+        <MudDataGrid Items="@_accounts?.Take(10)">
+            <Columns>
+                <PropertyColumn Property="x => x.AccountID"/>
+                <PropertyColumn Property="x => x.ClientID"/>
+                <PropertyColumn Property="x => x.AccountType"/>
+                <PropertyColumn Property="x => x.AccountNumber"/>
+                <PropertyColumn Property="x => x.Balance"/>
+                <PropertyColumn Property="x => x.OpenDate"/>
+            </Columns>
+        </MudDataGrid>
+
+        <div class="form-container">
+            <EditForm Model="input" method="post" OnValidSubmit="MakeTransaction" FormName="Transaction">
+                <div class="form-group">
+                    <label for="AccountNumberDestination">Account Number Destination</label>
+                    <InputText @bind-Value="input.AccountNumberDestination" class="form-control" autocomplete="username" aria-required="true" placeholder="Account Number Destination"/>
+                    <ValidationMessage For="() => input.AccountNumberDestination" class="text-danger"/>
+                </div>
+                <div class="form-group">
+                    <label for="OperationDate">Operation Date</label>
+                    <InputDate id="OperationDate" @bind-Value="input.OperationDate" class="form-control"/>
+                    <ValidationMessage For="() => input.OperationDate"/>
+                </div>
+                <div class="form-group">
+                    <label for="OperationAmount">Operation Amount</label>
+                    <InputNumber id="OperationAmount" @bind-Value="input.OperationAmount" class="form-control"/>
+                    <ValidationMessage For="() => input.OperationAmount"/>
+                </div>
+                <div class="form-group">
+                    <label for="OperationType">Operation Type</label>
+                    <InputText id="OperationType" @bind-Value="input.OperationType" class="form-control"/>
+                    <ValidationMessage For="() => input.OperationType"/>
+                </div>
+                <div class="form-group">
+                    <label for="OperationDescription">Operation Description</label>
+                    <InputText id="OperationDescription" @bind-Value="input.OperationDescription" class="form-control"/>
+                    <ValidationMessage For="() => input.OperationDescription"/>
+                </div>
+                <button type="submit" class="btn">Make Transaction</button>
+            </EditForm>
+        </div>
+    </div>
+}
 
 @code {
-    
+    private AccountOperation _accountOperation;
+    private Client client;
+    private Account activeAccount;
+    private IEnumerable<Account> _accounts;
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [SupplyParameterFromForm] private Model input { get; set; } = new Model();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userId = UserManager.GetUserId(user);
+            client = await ClientService.GetClientByUserIdAsync(userId);
+
+            if (client == null)
+            {
+                client = new Client
+                {
+                    UserID = userId
+                };
+                client = await ClientService.AddClientAsync(client);
+            }
+
+            _accounts = await AccountService.GetAllAccountsAsync();
+
+            if (client != null)
+            {
+                activeAccount = _accounts.FirstOrDefault(a => a.ClientID == client.ClientID);
+                _accountOperation = new AccountOperation
+                {
+                    AccountID = activeAccount.AccountID
+                };
+            }
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/Account/Login");
+        }
+    }
+
+    private async Task MakeTransaction()
+    {
+        if (activeAccount != null)
+        {
+            if (_accountOperation == null)
+            {
+                _accountOperation = new AccountOperation
+                {
+                    AccountID = activeAccount.AccountID
+                };
+            }
+
+            _accountOperation.AccountID = activeAccount.AccountID;
+            _accountOperation.AccountNumberDestination = input.AccountNumberDestination;
+            _accountOperation.OperationDate = input.OperationDate;
+            _accountOperation.OperationAmount = input.OperationAmount;
+            _accountOperation.OperationType = input.OperationType;
+            _accountOperation.OperationDescription = input.OperationDescription;
+
+            await AccountOperationService.AddAccountOperationAsync(_accountOperation);
+        }
+    }
+
+    private sealed class Model
+    {
+        [Required] public string? AccountNumberDestination { get; set; } = string.Empty;
+        [Required] public DateOnly? OperationDate { get; set; }
+        [Required] public decimal? OperationAmount { get; set; } = 0;
+        [Required] public string? OperationType { get; set; } = string.Empty;
+        [Required] public string? OperationDescription { get; set; } = string.Empty;
+    }
 }
