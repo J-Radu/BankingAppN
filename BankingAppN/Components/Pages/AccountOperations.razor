@@ -1,28 +1,39 @@
- @page "/Transactions" 
+@page "/Transactions"
 @using BankingApp.Interfaces
 @using BankingApp.Models
- @inject IAccountOperation AccountOperationService
+@using BankingAppN.Data.Iterator
+@inject IAccountOperation AccountOperationService
 
- <AuthorizeView>
-  <MudDataGrid Items="@_accountOperations?.Take(10)">
-   <Columns>
-    <PropertyColumn Property="x => x.OperationID"/>
-    <PropertyColumn Property="x => x.AccountID" />
-    <PropertyColumn Property="x => x.AccountNumberDestination" />
-    <PropertyColumn Property="x => x.OperationDate" />
-    <PropertyColumn Property="x => x.OperationAmount" />
-    <PropertyColumn Property="x => x.OperationType" />
-    <PropertyColumn Property="x => x.OperationDescription" />
-   </Columns>
-  </MudDataGrid>
- </AuthorizeView>
- 
- 
- @code {
- private IEnumerable<AccountOperation> _accountOperations = null!;
- 
- protected override async Task OnInitializedAsync()
- {
-  _accountOperations = (List<AccountOperation>)await AccountOperationService.GetAllAccountOperationsAsync();
- }
+<AuthorizeView>
+    <MudDataGrid Items="@_displayAccountOperations?.Take(10)">
+        <Columns>
+            <PropertyColumn Property="x => x.OperationID"/>
+            <PropertyColumn Property="x => x.AccountID"/>
+            <PropertyColumn Property="x => x.AccountNumberDestination"/>
+            <PropertyColumn Property="x => x.OperationDate"/>
+            <PropertyColumn Property="x => x.OperationAmount"/>
+            <PropertyColumn Property="x => x.OperationType"/>
+            <PropertyColumn Property="x => x.OperationDescription"/>
+        </Columns>
+    </MudDataGrid>
+</AuthorizeView>
+
+@code {
+    private AccountOperationsCollection? _accountOperationsCollection;
+    private List<AccountOperation>? _displayAccountOperations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var operations = await AccountOperationService.GetAllAccountOperationsAsync();
+        _accountOperationsCollection = new AccountOperationsCollection(operations.ToList());
+
+        _displayAccountOperations = new List<AccountOperation>();
+        var iterator = _accountOperationsCollection.CreateIterator();
+
+        while (iterator.HasNext())
+        {
+            _displayAccountOperations.Add(iterator.Next());
+        }
+    }
+
 }
