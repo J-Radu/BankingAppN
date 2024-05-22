@@ -12,4 +12,6 @@ public interface IClient
     Client AddClient(Client client);
     public Task<Client> UpdateClientAsync(Client client);
     public Task DeleteClientAsync(int id);
+    Task<Client> GetClientByUserIdAsync(string userId);
+    void UpdateClient(Client? client);
 }

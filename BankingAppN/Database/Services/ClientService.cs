@@ -63,5 +63,15 @@ public class ClientService : IClient
     {
         return _accountFactory.CreateAccount(type);
     }
-    
+
+    public async Task<Client> GetClientByUserIdAsync(string userId)
+    {
+        return await _context.Clients.FirstOrDefaultAsync(c => c.UserID == userId);
+    }
+
+    public void UpdateClient(Client? client)
+    {
+        _context.Entry(client).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
 }

@@ -19,10 +19,6 @@ namespace BankingApp.Controllers
         public async Task<IActionResult> GetProfile(int id)
         {
             var client = await _profileService.GetClientProfileAsync(id);
-            if (client == null)
-            {
-                return NotFound();
-            }
             return Ok(client);
         }
 
