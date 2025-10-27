@@ -9,7 +9,6 @@
 <em>Empowering Secure Banking for a Smarter Future</em>
 
 <!-- BADGES -->
-<img src="https://img.shields.io/github/license/J-Radu/BankingAppN?style=flat&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
 <img src="https://img.shields.io/github/last-commit/J-Radu/BankingAppN?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
 <img src="https://img.shields.io/github/languages/top/J-Radu/BankingAppN?style=flat&color=0080ff" alt="repo-top-language">
 <img src="https://img.shields.io/github/languages/count/J-Radu/BankingAppN?style=flat&color=0080ff" alt="repo-language-count">
